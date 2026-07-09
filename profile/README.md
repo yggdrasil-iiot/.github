@@ -1,6 +1,6 @@
 <div align="center">
 
-![Yggdrasil — IIoT governance spine](hero.png)
+![Yggdrasil — IIoT governance spine](https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.png)
 
 # Yggdrasil
 
