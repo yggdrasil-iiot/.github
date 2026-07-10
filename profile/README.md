@@ -17,7 +17,7 @@ share **zero code**; they compose only through a data & wire contract.
 
 | | Repo | Role |
 |---|---|---|
-| **Bifrost** | [bifrost](https://github.com/yggdrasil-iiot/bifrost) | Governance core — the "IAM" for the OT governance boundary. Schema · spec · provenance · activation gates over the governed model. |
+| **Bifrost** | [bifrost](https://github.com/yggdrasil-iiot/bifrost) | Governance core — the "IAM" for the OT governance boundary. Schema · spec · provenance · **signed activation** gates over the governed model. |
 | **Heimdall** | in [bifrost](https://github.com/yggdrasil-iiot/bifrost) | Runtime authorization at the write boundary. Deny-by-default; enforces authz + bounds on every OPC-UA command. |
 | **Mímir** | [mimir](https://github.com/yggdrasil-iiot/mimir) | Model derivation — browses live OPC-UA equipment types into governed, AAS-aligned definitions. |
 | **Muninn** | [muninn](https://github.com/yggdrasil-iiot/muninn) | Northbound feed — provenance-verifies the governed def, births it into Sparkplug B, and egress-validates every sample into the UNS. |
@@ -26,7 +26,8 @@ share **zero code**; they compose only through a data & wire contract.
 
 - **Northbound spine** — one "Line1 Mixer" flows **Mímir** (model) → **Bifrost** (govern) → **Muninn** (feed UNS), coupled only by the data/wire contract.
 - **Closed feedback loop** — *observe → command → observe*: a governed, authorized setpoint command changes what the UNS observes, end-to-end on a single broker.
-- Both are proven by **executable integration gates** (`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`), not just unit tests.
+- **Signed activation lifecycle** — *which version is live* is a governed event, hardened from an audit trail into an authenticated, non-repudiable history: four-eyes activation → a tamper-evident hash-chained ledger → **dual Ed25519 signatures + a signed head**, with Heimdall failing closed on a broken or unsigned ledger before it binds a version at the edge.
+- All three are proven by **executable integration gates** (`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`, `run-identity-gate.sh`), not just unit tests.
 
 ## Stack
 
