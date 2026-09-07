@@ -1,6 +1,9 @@
 <div align="center">
 
-![Yggdrasil — IIoT governance spine](https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.dark.svg">
+  <img alt="Yggdrasil — IIoT governance spine: Mímir derives models, Bifrost governs them, Heimdall guards the write boundary, Muninn feeds the unified namespace" src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.svg">
+</picture>
 
 # Yggdrasil
 
