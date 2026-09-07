@@ -34,7 +34,19 @@ is a difference, not an anomaly to be learned.
 - **Closed feedback loop** — *observe → command → observe*: a governed, authorized setpoint command changes what the UNS observes, end-to-end on a single broker.
 - **Anchored activation lifecycle** — *which version is live* is a governed event, hardened from an audit trail into an authenticated, non-repudiable history: four-eyes activation → a tamper-evident hash-chained ledger → **dual Ed25519 signatures + a signed head** → deny-by-default maker-checker authorization → a **four-eyes head cross-checked against an external anchor witness**, which makes insider rollback evident. Each tier is additive and backward-compatible; the edge bars above signing are opt-in (`REQUIRE_SIGNED_ACTIVATION` / `REQUIRE_ANCHORED_ACTIVATION`, both default off), and when raised Heimdall fail-closes before it binds a version.
 - **Reconciliation against real traffic** — Huginn was cross-checked against **tshark** on three public 4SICS ICS-lab captures: S7 request counts match **exactly** (23,732 / 86,403 / 53,217), responses are never observed (a design rule, held on real traffic), and the findings include an unregistered host writing to a PLC over S7 and a device-enumeration sweep.
-- Every claim above has an **executable proof**, not an assertion — the spine, the loop and the ledger by integration gates (`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`, `run-anchored-activation-gate.sh`); the reconciliation by regression tests that pin the tshark-matched counts against the captures themselves.
+- **Installable at a plant that already runs** — the runtime edge has an
+  `ENFORCEMENT_LOG_ONLY` mode in which it reaches every verdict and refuses nothing, so it can
+  be introduced without being able to stop the line; enforcement then arrives by removing
+  allowlist rules one reviewable diff at a time. That mode is proven end-to-end against a live
+  broker and OPC-UA server, including its reversal by restart. The **rollout order** it belongs
+  to — six phases, each with an exit and an abort criterion — is written down in
+  [bifrost/docs/ADOPTION.md](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ADOPTION.md),
+  and is derived from the code's constraints rather than from experience.
+- **Scale claims are measured, not asserted** — ledger growth, per-entry verification cost, the
+  two anchor stores and a hundred-site federated audit are all benchmarked in
+  [bifrost/docs/ENTERPRISE.md](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ENTERPRISE.md) §11,
+  including the runs that came out unusable, which are reported as failures rather than dropped.
+- Every claim above has a **check you can run**, not an assertion — the spine, the loop, the ledger and the rollout mode by integration gates (`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`, `run-anchored-activation-gate.sh`, `run-ncmd-runtime-gate.sh`); the reconciliation by regression tests that pin the tshark-matched counts against the captures themselves; the scale figures by benchmark scripts that assert nothing and print numbers. **The one exception is the rollout order** — that is reasoning about the code rather than a result, and it says so where it is written.
 
 ## Stack
 
