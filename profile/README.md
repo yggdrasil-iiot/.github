@@ -18,6 +18,16 @@ looks at the wire itself: **Huginn** reads the industrial traffic that actually 
 reconciles it against what was declared, because *the contract is the allowlist* — bypass
 is a difference, not an anomaly to be learned.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/system-context.dark.svg">
+  <img alt="System context: Yggdrasil between the people who propose and approve changes, Git hosting, vendor tooling, OT equipment and UNS consumers, with the two open axes drawn as missing relationships" src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/system-context.svg">
+</picture>
+
+Two of the relationships above are drawn because they are missing. Nothing makes the governed
+edge the only way into the equipment, and nothing reads a vendor runtime's live configuration
+back to check it against the declaration. Both are tracked as open axes in
+[bifrost/docs/ENTERPRISE.md](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ENTERPRISE.md).
+
 ## Components
 
 | | Repo | Role |
