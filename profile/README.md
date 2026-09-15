@@ -49,17 +49,18 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 2. **닫힌 제어 피드백 루프 (Closed Feedback Loop)**:  
    단일 MQTT 브로커 환경에서 *관측(Observe) → 제어 명령(Command) → 관측(Observe)*의 완전한 루프를 형성하여, 인가된 설정값 변경 명령이 현장에 적용되고 그 결과가 다시 UNS 텔레메트리로 반영되는 엔드투엔드 인과성을 입증하였습니다.
 3. **위변조 방지 앵커드 활성화 수명주기 (Anchored Activation Lifecycle)**:  
-   "현재 현장에서 구동 중인 모델/레시피 버전이 정본인가?"를 수학적으로 보장하기 위해, 감사 로그를 넘어선 암호학적 비부인(Non-repudiation) 이력 체계를 구축하였습니다:  
+   "현재 현장에서 구동 중인 모델/레시피 버전이 정본인가?"를 위변조가 즉시 드러나도록(Tamper-evident) 하고 사후 부인이 불가능하도록(Non-repudiation), 단순 감사 로그를 넘어선 암호학적 이력 체계를 구축하였습니다:  
    `4-eyes 승인` → `해시 체인 불변 원장` → `이중 Ed25519 서명 + 서명된 헤드` → `기본 거부 메이커-체커 인가` → `외부 증인 앵커(External Witness) 대조 크로스체크`.  
-   이를 통해 악의적인 내부자에 의한 과거 버전 롤백 공격을 즉각 감지하며, 런타임 데몬(Heimdall)은 버전 무결성이 훼손될 경우 즉시 폐쇄형 실패(Fail-Closed)하여 설비 바인딩을 거부합니다.
+   이를 통해 악의적인 내부자에 의한 과거 버전 롤백 공격을 즉각 감지하며, `REQUIRE_SIGNED_ACTIVATION` 및 `REQUIRE_ANCHORED_ACTIVATION` 플래그를 활성화한 경우(두 플래그는 기본값이 꺼짐) 런타임 데몬(Heimdall)은 버전 무결성이 훼손되면 폐쇄형 실패(Fail-Closed)하여 설비 바인딩을 거부합니다.
 4. **실제 산업 현장 트래픽(PCAP) 기반 무손실 대조 검증**:  
    Huginn은 공개된 3건의 4SICS ICS 랩 실제 캡처 패킷을 대상으로 산업 표준 네트워크 분석 도구인 **tshark**와 1:1 크로스체크를 수행하였습니다. S7 요청 패킷 수가 **완벽히 일치(23,732 / 86,403 / 53,217건)**함을 확인하였으며, 응답 패킷을 파싱하지 않는 설계 불변식을 실증하고, 미등록 호스트의 PLC 쓰기 시도 및 디바이스 스캔 행위를 성공적으로 적발하였습니다.
-5. **가동 중인 기존 공장을 위한 무중단 단계적 도입 전략**:  
-   운영 중인 라인을 멈추지 않고 시스템을 도입할 수 있도록, 런타임 엣지에 모든 판정을 기록하되 명령을 차단하지 않는 `ENFORCEMENT_LOG_ONLY` 모드를 탑재하였습니다. 실제 브로커 및 OPC UA 서버와 연동하여 안전성을 실증하였으며, 6단계 롤아웃 절차와 각 단계별 중단 기준(Abort Criteria)을 [`bifrost/docs/ADOPTION.md`](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ADOPTION.md)에 정밀 규격화하였습니다.
+5. **가동 중인 기존 공장을 위한 단계적 도입 전략**:  
+   - **기록 전용 모드 실증**: 운영 중인 라인을 멈추지 않고 시스템을 도입할 수 있도록, 런타임 엣지에 모든 판정을 기록하되 명령을 차단하지 않는 `ENFORCEMENT_LOG_ONLY` 모드를 탑재하고 실제 브로커 및 OPC UA 서버와 연동하여 안전성을 실증하였습니다.  
+   - **6단계 롤아웃 절차 규격화 (공장 실행 이력 없음 · 코드 유도 추론)**: 안전한 단계적 도입을 위한 6단계 롤아웃 절차와 단계별 중단 기준(Abort Criteria)을 [`bifrost/docs/ADOPTION.md`](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ADOPTION.md)에 정밀 규격화하였습니다(단, 본 절차는 실제 공장 라인에서 실행된 이력은 없으며 코드베이스 분석으로부터 유도된 엔지니어링 추론 모델입니다).
 6. **주장이 아닌 실측 기반 확장성 벤치마크**:  
    원장 증가율, 엔트리당 암호학적 검증 비용, 2개 앵커 저장소 및 100개 사이트 연합 감사(Federated Audit) 성능을 [`bifrost/docs/ENTERPRISE.md`](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ENTERPRISE.md) §11에 실측치로 투명하게 공개하였으며, 목표를 달성하지 못한 벤치마크 결과 또한 삭제하지 않고 실패로 명시하였습니다.
 7. **재현 가능한 실행 게이트 완비**:  
-   본 플랫폼의 모든 기술적 클레임은 단순한 단위 테스트가 아닌 실제 컨테이너 환경에서 검증 가능한 **엔지니어링 통합 게이트 스크립트**(`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`, `run-anchored-activation-gate.sh`, `run-ncmd-runtime-gate.sh`)로 뒷받침됩니다.
+   본 플랫폼의 핵심 런타임 및 아키텍처 클레임은 단순한 단위 테스트가 아닌 실제 컨테이너 환경에서 검증 가능한 **엔지니어링 통합 게이트 스크립트**(`run-yggdrasil-spine-gate.sh`, `run-yggdrasil-full-loop-gate.sh`, `run-anchored-activation-gate.sh`, `run-ncmd-runtime-gate.sh`)로 뒷받침됩니다. (유일한 예외는 롤아웃 순서 규격으로, 이는 게이트 산출물이 아니라 코드로부터 유도된 엔지니어링 추론이며 해당 문서에 명시되어 있습니다).
 
 ---
 
