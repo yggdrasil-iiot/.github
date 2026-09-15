@@ -9,83 +9,84 @@
 
   <rect x="6" y="6" width="828" height="888" rx="14" fill="#0d1117" stroke="#30363d"/>
 
-  <text x="28" y="42" font-size="18" font-weight="600" fill="#c9d1d9">System context: what Yggdrasil sits between</text>
-  <text x="28" y="66" font-size="13" fill="#8b949e">C4 level 1. Two relationships are drawn as missing rather than left out.</text>
-  <text x="28" y="86" font-size="13" fill="#8b949e">They are the open axes. Detail: bifrost/docs/ENTERPRISE.md</text>
+  <text x="28" y="42" font-size="18" font-weight="600" fill="#c9d1d9">시스템 컨텍스트: Yggdrasil의 경계 및 연계 구조</text>
+  <text x="28" y="66" font-size="13" fill="#8b949e">C4 Level 1. 누락된 것이 아니라 연결이 부재함을 명시적으로 표시한 두 개의 관계</text>
+  <text x="28" y="86" font-size="13" fill="#8b949e">미해결 개방 축 (상세: bifrost/docs/ENTERPRISE.md)</text>
 
   <!-- ============ people ============ -->
   <rect x="28" y="112" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="153" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Controls engineer</text>
-  <text x="153" y="162" font-size="12" fill="#8b949e" text-anchor="middle">proposes a recipe change</text>
+  <text x="153" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">제어 엔지니어</text>
+  <text x="153" y="162" font-size="12" fill="#8b949e" text-anchor="middle">레시피 변경 제안</text>
 
   <rect x="295" y="112" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="420" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Approver</text>
-  <text x="420" y="162" font-size="12" fill="#8b949e" text-anchor="middle">a different person, by construction</text>
+  <text x="420" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">승인자 (Approver)</text>
+  <text x="420" y="162" font-size="12" fill="#8b949e" text-anchor="middle">구조적 분리된 제2의 인가자</text>
 
   <rect x="562" y="112" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="687" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Auditor</text>
-  <text x="687" y="162" font-size="12" fill="#8b949e" text-anchor="middle">asks what was live, and when</text>
+  <text x="687" y="140" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">감사관 (Auditor)</text>
+  <text x="687" y="162" font-size="12" fill="#8b949e" text-anchor="middle">배포 시점 및 정본 버전 감사</text>
 
   <polyline points="153,180 153,210 380,210 380,330" fill="none" stroke="#8b949e" stroke-width="1.6" marker-end="url(#scG)"/>
-  <text x="200" y="202" font-size="12" fill="#8b949e">proposes a change</text>
+  <text x="200" y="202" font-size="12" fill="#8b949e">변경안 제안</text>
   <polyline points="420,180 420,330" fill="none" stroke="#8b949e" stroke-width="1.6" marker-end="url(#scG)"/>
-  <text x="430" y="200" font-size="12" fill="#8b949e">approves it</text>
+  <text x="430" y="200" font-size="12" fill="#8b949e">변경 승인</text>
   <polyline points="687,180 687,210 460,210 460,330" fill="none" stroke="#8b949e" stroke-width="1.6" marker-end="url(#scG)"/>
-  <text x="524" y="200" font-size="12" fill="#8b949e">asks the ledger</text>
+  <text x="524" y="200" font-size="12" fill="#8b949e">불변 원장 질의</text>
 
   <!-- ============ what it reads ============ -->
   <rect x="28" y="246" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="153" y="274" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Git hosting</text>
-  <text x="153" y="296" font-size="12" fill="#8b949e" text-anchor="middle">holds the declarations</text>
+  <text x="153" y="274" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Git 저장소</text>
+  <text x="153" y="296" font-size="12" fill="#8b949e" text-anchor="middle">버전 관리된 선언문 보관</text>
 
   <rect x="562" y="246" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="687" y="274" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Vendor tooling</text>
+  <text x="687" y="274" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">벤더 툴링</text>
   <text x="687" y="296" font-size="12" fill="#8b949e" text-anchor="middle">Kepware · Ignition · ThingWorx</text>
 
   <polyline points="153,314 153,350 290,350" fill="none" stroke="#8b949e" stroke-width="1.6" marker-end="url(#scG)"/>
-  <text x="32" y="368" font-size="12" fill="#8b949e">versioned declarations</text>
+  <text x="32" y="368" font-size="12" fill="#8b949e">버전 관리된 선언문</text>
 
   <polyline points="687,314 687,350 550,350" fill="none" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#scB)"/>
-  <text x="556" y="368" font-size="12" fill="#58a6ff">equipment model, read in</text>
+  <text x="556" y="368" font-size="12" fill="#58a6ff">장비 모델 인입 (Read-in)</text>
 
   <polyline points="760,314 760,392 550,392" fill="none" stroke="#d29922" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#scA)"/>
-  <text x="556" y="412" font-size="12" fill="#d29922">axis 13 · live configuration,</text>
-  <text x="556" y="428" font-size="12" fill="#d29922">never read back</text>
+  <text x="556" y="412" font-size="12" fill="#d29922">축 13 · 런타임 실시간 설정,</text>
+  <text x="556" y="428" font-size="12" fill="#d29922">역방향 검증 미연결 (미해결)</text>
 
   <!-- ============ the system ============ -->
   <rect x="290" y="330" width="260" height="150" rx="8" fill="#121d2f" stroke="#58a6ff" stroke-width="1.6"/>
   <text x="420" y="366" font-size="17" font-weight="600" fill="#c9d1d9" text-anchor="middle">Yggdrasil</text>
-  <text x="420" y="394" font-size="12.5" fill="#8b949e" text-anchor="middle">declares what is valid,</text>
-  <text x="420" y="412" font-size="12.5" fill="#8b949e" text-anchor="middle">seals which version is live,</text>
-  <text x="420" y="430" font-size="12.5" fill="#8b949e" text-anchor="middle">and decides again at the write</text>
+  <text x="420" y="394" font-size="12.5" fill="#8b949e" text-anchor="middle">유효한 데이터 계약을 선언하고,</text>
+  <text x="420" y="412" font-size="12.5" fill="#8b949e" text-anchor="middle">활성 버전을 암호학적으로 봉인하며,</text>
+  <text x="420" y="430" font-size="12.5" fill="#8b949e" text-anchor="middle">쓰기 시점에 독립적으로 재인가</text>
   <text x="420" y="456" font-size="12" fill="#8b949e" text-anchor="middle">Bifrost · Heimdall · Mímir</text>
   <text x="420" y="472" font-size="12" fill="#8b949e" text-anchor="middle">Muninn · Huginn</text>
 
   <!-- ============ where it lands ============ -->
   <polyline points="380,480 380,540 153,540 153,576" fill="none" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#scB)"/>
-  <text x="160" y="532" font-size="12" fill="#58a6ff">writes, after deciding again</text>
+  <text x="160" y="532" font-size="12" fill="#58a6ff">재인가 검증 후 안전한 쓰기 수행</text>
 
   <polyline points="460,480 460,540 687,540 687,576" fill="none" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#scB)"/>
-  <text x="500" y="532" font-size="12" fill="#58a6ff">verified definitions, samples</text>
+  <text x="500" y="532" font-size="12" fill="#58a6ff">검증된 정의 및 텔레메트리 샘플</text>
 
   <rect x="28" y="576" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="153" y="604" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">OT equipment</text>
-  <text x="153" y="626" font-size="12" fill="#8b949e" text-anchor="middle">OPC UA servers · PLCs</text>
+  <text x="153" y="604" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">OT 현장 설비</text>
+  <text x="153" y="626" font-size="12" fill="#8b949e" text-anchor="middle">OPC UA 서버 · PLC 제어기</text>
 
   <rect x="562" y="576" width="250" height="68" rx="6" fill="#1c2128" stroke="#30363d"/>
-  <text x="687" y="604" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">UNS consumers</text>
-  <text x="687" y="626" font-size="12" fill="#8b949e" text-anchor="middle">broker · historian · MES</text>
+  <text x="687" y="604" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">UNS 데이터 소비자</text>
+  <text x="687" y="626" font-size="12" fill="#8b949e" text-anchor="middle">MQTT 브로커 · 히스토리안 · MES</text>
 
   <!-- ============ the path that never meets the edge ============ -->
   <rect x="28" y="716" width="250" height="68" rx="6" fill="#25171c" stroke="#f85149"/>
-  <text x="153" y="744" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">Unmanaged client</text>
-  <text x="153" y="766" font-size="12" fill="#8b949e" text-anchor="middle">anything with a session</text>
+  <text x="153" y="744" font-size="14" font-weight="600" fill="#c9d1d9" text-anchor="middle">비관리 클라이언트</text>
+  <text x="153" y="766" font-size="12" fill="#8b949e" text-anchor="middle">임의 세션을 보유한 비인가 주체</text>
 
   <polyline points="153,716 153,644" fill="none" stroke="#f85149" stroke-width="1.6" marker-end="url(#scR)"/>
-  <text x="165" y="686" font-size="12" fill="#f85149">axis 12 · no gate on this path</text>
+  <text x="165" y="686" font-size="12" fill="#f85149">축 12 · 이 경로에는 게이트 부재</text>
 
-  <text x="28" y="836" font-size="13" fill="#c9d1d9">Nothing stops a client that never meets the edge, and nothing reads a</text>
-  <text x="28" y="856" font-size="13" fill="#c9d1d9">vendor runtime's live configuration back to check it against the declaration.</text>
-  <text x="28" y="876" font-size="13" fill="#c9d1d9">Both are drawn because both are open.</text>
+  <text x="28" y="836" font-size="13" fill="#c9d1d9">경계를 통과하지 않는 클라이언트를 강제할 수단이 없으며, 벤더 런타임의</text>
+  <text x="28" y="856" font-size="13" fill="#c9d1d9">실시간 설정을 역으로 읽어 선언문과 대조하는 루프 또한 부재합니다.</text>
+  <text x="28" y="876" font-size="13" fill="#c9d1d9">두 관계 모두 현재 미해결 상태이므로 명시적인 개방 축으로 표시되었습니다.</text>
 
 </svg>
+
