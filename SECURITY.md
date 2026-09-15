@@ -1,70 +1,82 @@
-# Security policy — Yggdrasil
+# 보안 정책 (Security Policy) — Yggdrasil
 
-This is the default policy for repositories in this organisation that do not carry their own.
-**Bifrost** and **Huginn** each have a `SECURITY.md` with a threat model specific to what they do;
-if you are looking at one of those, read that file instead. This one governs **Mímir** and
-**Muninn**.
+본 문서는 자체 보안 정책을 별도로 유지하지 않는 Yggdrasil 조직 내 모든 저장소에 적용되는 기본 보안 정책(Default Policy)입니다.
+**Bifrost**와 **Huginn**은 각 시스템의 고유한 위협 모델(Threat Model)을 반영한 개별 `SECURITY.md`를 보유하고 있으므로, 해당 프로젝트 분석 시에는 각 저장소의 정책 문서를 참조하십시오. 본 정책 문서는 조직 전반 및 특히 **Mímir**와 **Muninn**의 보안 통제를 규율합니다.
 
-## What these projects are
+---
 
-Yggdrasil is a **systems-architecture reference implementation** of governance for the IT↔OT
-boundary. Nothing here is distributed as a binary, published to a package registry, or running in
-a plant. This policy describes how a security report is handled; it is not a commercial support
-commitment or a CE-marked manufacturer's vulnerability-handling process under the EU Cyber
-Resilience Act.
+## 1. 프로젝트 성격 및 보증 범위
 
-## Reporting a vulnerability
+Yggdrasil은 IT↔OT 경계 거버넌스를 실증하기 위한 **시스템 아키텍처 참조 구현체(Systems-Architecture Reference Implementation)**입니다.
+본 조직 내 어떠한 코드도 상용 패키지 레지스트리에 등록된 릴리스 바이너리가 아니며, 실제 생산 공장(Plant)에서 운용되는 제품이 아닙니다.
+따라서 본 정책은 잠재적 취약점 제보에 대한 처리 및 대응 절차를 기술한 것이며, 상용 지원 계약(SLA)이나 유럽 사이버 복원력 법(EU Cyber Resilience Act)에 따른 CE 마킹 제조사의 취약점 처리 프로세스를 구성하지 않습니다.
 
-Use GitHub's **private vulnerability reporting** on the repository in question: its *Security* tab
-→ *Report a vulnerability*. It is enabled on every repository here. Please do not open a public
-issue for something exploitable.
+---
 
-**What to expect.** Maintained by one person; there is no on-call rotation, so no SLA is promised.
-Acknowledgement within a few days, then a fix or a documented decision. If a report goes
-unanswered for two weeks, opening a public issue that says only "unacknowledged private report,
-see Security tab" is reasonable and will not be treated as bad faith.
+## 2. 보안 취약점 제보 절차
 
-## Mímir and Muninn — where the surface actually is
+보안 취약점 제보는 반드시 대상 저장소의 **GitHub 비공개 취약점 제보(Private Vulnerability Reporting)** 기능을 이용해 주십시오:
+- 대상 저장소 상단 **Security** 탭 → **Report a vulnerability** 선택.
+- 조직 내 모든 저장소에서 비공개 취약점 제보 기능이 활성화되어 있습니다.
+- 실제 익스플로잇이 가능한 취약점을 공개 Issue나 토론 게시판에 등록하는 행위를 엄격히 금지합니다.
 
-Both are **OPC UA clients**. They browse or sample a server and act on what it returns, which
-means a hostile or compromised server is the input they cannot choose. Both also parse JSON from
-the registry.
+### 2.1 처리 프로세스 및 기대 수준
+- **유지보수 체계**: 1인 메인테이너 기반 연구 프로젝트로 운영되며, 별도의 온콜(On-call) 교대 근무나 엄격한 응답 SLA를 보장하지 않습니다.
+- **처리 절차**: 제보 접수 후 며칠 이내에 접수 확인 통지를 발행하며, 이후 검증을 거쳐 보안 패치 배포 또는 설계 결정 사항을 문서화하여 공유합니다.
+- **에스컬레이션 기준**: 비공개 제보 후 2주 동안 아무런 회신이 없는 경우, 세부 공격 벡터를 노출하지 않고 *"unacknowledged private report, see Security tab"*이라는 내용의 공개 Issue를 등록하여 진행을 요청할 수 있으며, 이는 정상적인 에스컬레이션 절차로 인정됩니다.
 
-**Muninn carries two actual security controls, and those are the things worth attacking:**
+---
 
-- **Provenance verification.** It recomputes SHA-256 over the raw registry bytes, compares it to
-  the sibling `manifest.json`, and **refuses to birth on mismatch**. Any way to make it birth a
-  definition whose bytes were not the ones verified — verify one, publish another — is a finding.
-- **Egress validation.** It checks every live sample against the governed definition and **drops**
-  non-conformant metrics before publishing NDATA. Any way to get a non-conformant metric onto the
-  bus past that check is a finding.
+## 3. Mímir 및 Muninn — 실질 공격 표면 및 핵심 보안 통제
 
-For **Mímir**, the equivalent is that it only ever *proposes*: a derived definition is not
-canonical until Bifrost's gate admits it. A path by which Mímir's output is treated as governed
-without passing that gate is a finding.
+Mímir와 Muninn은 모두 **OPC UA 클라이언트**로 동작합니다.
+서버의 노드 구조를 브라우징(Browse)하거나 메트릭을 샘플링(Sample)하여 동작을 수행하므로, 악의적으로 조작되었거나 침해된 OPC UA 서버의 응답은 제어할 수 없는 외부 입력으로 간주됩니다. 또한 두 컴포넌트 모두 거버넌스 레지스트리로부터 JSON 사양 문서를 파싱합니다.
 
-Beyond those: crashes, hangs or memory exhaustion driven by a crafted server response, a crafted
-registry document, or a crafted Sparkplug payload.
+### 3.1 Muninn의 2대 핵심 보안 통제 (실질적 침투 평가 대상)
+Muninn은 엣지 송출 단계에서 2가지 실질적인 보안 통제를 직접 집행하며, 이 통제의 무력화 여부가 유효한 보안 결함(Finding)의 핵심 평가 기준입니다:
 
-## Already known, and by design
+1. **출처 검증 (Provenance Verification)**:
+   - 로컬에 미러링된 거버넌스 레지스트리의 원시 바이트(raw bytes)에 대해 SHA-256 체크섬을 직접 재계산하고, 형제 파일인 `manifest.json`의 해시와 1:1 대조 검증합니다.
+   - **체크섬 불일치 발생 시 절대로 노드 출생(NBIRTH)을 발행하지 않고 기동을 중단합니다.**
+   - 검증된 바이트와 실제 발행되는 정의의 불일치를 유발하거나(검증은 A로 통과하고 출생은 B로 발행), 무결성 검증을 우회하여 정의를 출생시킬 수 있는 경로는 중대한 보안 결함으로 평가됩니다.
 
-- **Demo scale.** Single broker, single edge, localhost. There is no hardened deployment posture
-  to bypass, because there is no deployment posture.
-- **No transport security story.** Broker credentials and TLS are whatever the local harness sets
-  up. "The demo connects to MQTT without TLS" is the configuration, not a vulnerability.
-- **No authentication between components.** They compose through a published data and wire
-  contract with zero shared code, and that contract does not carry identity. Identity lives in
-  Bifrost's activation ledger, and its limits are documented in
-  [bifrost/docs/ENTERPRISE.md](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ENTERPRISE.md) §6.
-- **ISA-95 and AAS are alignments, not certifications.**
+2. **송출 유효성 검증 (Egress Validation)**:
+   - 실시간으로 수집되는 모든 센서 샘플을 기 출생된 거버넌스 계약 정의와 엄격히 대조 검증합니다.
+   - **계약 규격을 위반하거나 미승인된 메트릭은 즉시 폐기(Drop)하여 버스 유입을 원천 차단합니다.**
+   - 이 유효성 검증을 우회하여 거버넌스 정의와 일치하지 않는 비적격 메트릭을 Sparkplug NDATA 버스로 방출할 수 있는 경로는 유효한 보안 결함으로 평가됩니다.
 
-## Out of scope
+### 3.2 Mímir의 거버넌스 승인 경계
+Mímir는 오직 정의의 **제안(Propose)**만을 수행하도록 격리되어 있습니다:
+- Mímir가 OPC UA 주소 공간을 브라우징하여 생성한 파생 정의는 Bifrost의 호환성 게이트(Gate)가 이를 검증하고 정식 승인하기 전까지는 절대로 표준/정본(Canonical) 거버넌스 계약이 될 수 없습니다.
+- Bifrost의 게이트 검증을 거치지 않고 Mímir의 출력이 거버넌스 정본으로 승격되거나 시스템에 직접 주입되는 경로가 존재한다면 유효한 보안 결함으로 평가됩니다.
 
-- Findings in third-party libraries with no exploit path through this code. Mímir depends on
-  Eclipse Milo and Jackson; Muninn adds Eclipse Tahu, Paho and Logback. Those belong upstream.
-- Anything requiring write access to the registry or the machine.
-- The `sim` module in Bifrost, which is a test fixture.
+### 3.3 서비스 거부(DoS) 공격 벡터
+위 통제 외에도, 악의적으로 조작된 OPC UA 서버 응답, 비정상적인 레지스트리 문서, 또는 위조된 Sparkplug 페이로드 주입을 통해 프로세스 충돌(Crash), 무한 루프/행(Hang), 메모리 고갈을 유발하는 벡터는 취약점 검토 대상입니다.
 
-## Supported versions
+---
 
-Pre-1.0. Only the default branch, and the latest tag where one exists.
+## 4. 설계상 의도된 기지의 제약 사항 (Known by Design)
+
+다음 항목들은 시스템 아키텍처의 설계 의도에 따른 기본 상태이므로 보안 취약점으로 분류되지 않습니다:
+
+- **검증용 단일 노드 스케일 (Demo Scale)**: 단일 브로커, 단일 엣지 노드, 로컬호스트(localhost) 환경을 전제로 구성되었습니다. 우회할 엔터프라이즈급 강화 배포 태세(Hardened Deployment Posture)가 본래 존재하지 않습니다.
+- **전송 계층 보안(TLS) 미적용**: 브로커 인증 자격 증명 및 TLS 암호화 구성은 로컬 하네스 환경의 설정 문제입니다. "데모가 TLS 없이 MQTT에 연결됨"은 테스트 설정일 뿐 시스템 취약점이 아닙니다.
+- **컴포넌트 간 상호 인증 부재**: 각 컴포넌트는 공유 코드 없는(Zero-Shared-Code) 공개 데이터 계약 및 유선 사양을 통해 합성되며, 와이어 계약 자체는 주체 신원(Identity)을 운반하지 않습니다. 신원 관리는 Bifrost의 활성화 원장에 집중되며, 관련 한계와 위협 모델은 [bifrost/docs/ENTERPRISE.md §6](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ENTERPRISE.md)에 상세히 기술되어 있습니다.
+- **표준 정렬 vs 인증**: ISA-95 및 AAS 모델과의 부합성은 개념적 정렬(Alignment)을 의미하며, 공인 기관의 보안 또는 적합성 인증(Certification)을 의미하지 않습니다.
+
+---
+
+## 5. 보안 평가 제외 대상 (Out of Scope)
+
+다음 항목에 대한 제보는 처리 범위에서 제외됩니다:
+
+- **실제 악용 경로가 없는 서드파티 라이브러리 취약점**: 본 프로젝트의 코드를 통해 도달 가능한 실행 경로(Exploit Path)가 입증되지 않은 단순 의존성 CVE는 해당 업스트림 프로젝트로 제보해야 합니다. (Mímir: Eclipse Milo, Jackson / Muninn: Eclipse Tahu, Eclipse Paho, Logback 등)
+- **로컬 파일시스템 쓰기 권한 전제 공격**: 거버넌스 레지스트리 저장소나 호스트 머신의 파일시스템에 대한 직접적인 쓰기/수정 권한을 전제로 하는 공격 시나리오.
+- **Bifrost의 `sim` 모듈**: 단위 및 시뮬레이션 검증을 위해 격리된 테스트 픽스처(Test Fixture) 코드.
+
+---
+
+## 6. 보안 패치 지원 버전
+
+현재 본 프로젝트는 1.0 정식 릴리스 이전 단계(Pre-1.0)에 있습니다.
+보안 패치 및 유지보수는 오직 **기본 브랜치(`master`)**와 태그가 존재하는 경우 **최신 릴리스 태그**에 대해서만 제공됩니다.
