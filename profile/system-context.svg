@@ -10,8 +10,8 @@
   <rect x="6" y="6" width="828" height="888" rx="14" fill="#ffffff" stroke="#d0d7de"/>
 
   <text x="28" y="42" font-size="18" font-weight="600" fill="#1f2328">시스템 컨텍스트: Yggdrasil의 경계 및 연계 구조</text>
-  <text x="28" y="66" font-size="13" fill="#57606a">C4 Level 1. 누락된 것이 아니라 연결이 부재함을 명시적으로 표시한 두 개의 관계</text>
-  <text x="28" y="86" font-size="13" fill="#57606a">미해결 개방 축 (상세: bifrost/docs/ENTERPRISE.md)</text>
+  <text x="28" y="66" font-size="13" fill="#57606a">C4 Level 1. 두 점선 관계는 축 12·13의 부분 구현</text>
+  <text x="28" y="86" font-size="13" fill="#57606a">개방 축 없음 (상세: bifrost/docs/ENTERPRISE.md)</text>
 
   <!-- ============ people ============ -->
   <rect x="28" y="112" width="250" height="68" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
@@ -31,7 +31,7 @@
   <polyline points="420,180 420,330" fill="none" stroke="#57606a" stroke-width="1.6" marker-end="url(#scG)"/>
   <text x="430" y="200" font-size="12" fill="#57606a">변경 승인</text>
   <polyline points="687,180 687,210 460,210 460,330" fill="none" stroke="#57606a" stroke-width="1.6" marker-end="url(#scG)"/>
-  <text x="524" y="200" font-size="12" fill="#57606a">불변 원장 질의</text>
+  <text x="524" y="200" font-size="12" fill="#57606a">변조탐지 원장 질의</text>
 
   <!-- ============ what it reads ============ -->
   <rect x="28" y="246" width="250" height="68" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
@@ -45,12 +45,13 @@
   <polyline points="153,314 153,350 290,350" fill="none" stroke="#57606a" stroke-width="1.6" marker-end="url(#scG)"/>
   <text x="32" y="368" font-size="12" fill="#57606a">버전 관리된 선언문</text>
 
-  <polyline points="687,314 687,350 550,350" fill="none" stroke="#0969da" stroke-width="1.6" marker-end="url(#scB)"/>
-  <text x="556" y="368" font-size="12" fill="#0969da">장비 모델 인입 (Read-in)</text>
+  <polyline points="687,314 687,350 550,350" fill="none" stroke="#0969da" stroke-width="1.6" stroke-dasharray="6 3" marker-end="url(#scB)"/>
+  <text x="556" y="368" font-size="12" fill="#0969da">수동 인계 벤더 파일 대조 (연결 없음)</text>
+  <text x="556" y="384" font-size="12" fill="#0969da">Mímir 설정 스냅샷 해석 (계획)</text>
 
   <polyline points="760,314 760,392 550,392" fill="none" stroke="#9a6700" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#scA)"/>
-  <text x="556" y="412" font-size="12" fill="#9a6700">축 13 · 런타임 실시간 설정,</text>
-  <text x="556" y="428" font-size="12" fill="#9a6700">역방향 검증 미연결 (미해결)</text>
+  <text x="556" y="412" font-size="12" fill="#9a6700">축 13 부분 구현 (실행 중 제품 미조회)</text>
+  <text x="556" y="428" font-size="12" fill="#9a6700">벤더 투영·Kepware 어댑터 부재</text>
 
   <!-- ============ the system ============ -->
   <rect x="290" y="330" width="260" height="150" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.6"/>
@@ -59,11 +60,11 @@
   <text x="420" y="412" font-size="12.5" fill="#57606a" text-anchor="middle">활성 버전을 암호학적으로 봉인하며,</text>
   <text x="420" y="430" font-size="12.5" fill="#57606a" text-anchor="middle">쓰기 시점에 독립적으로 재인가</text>
   <text x="420" y="456" font-size="12" fill="#57606a" text-anchor="middle">Bifrost · Heimdall · Mímir</text>
-  <text x="420" y="472" font-size="12" fill="#57606a" text-anchor="middle">Muninn · Huginn</text>
+  <text x="420" y="472" font-size="12" fill="#57606a" text-anchor="middle">Muninn · Huginn · Týr</text>
 
   <!-- ============ where it lands ============ -->
   <polyline points="380,480 380,540 153,540 153,576" fill="none" stroke="#0969da" stroke-width="1.6" marker-end="url(#scB)"/>
-  <text x="160" y="532" font-size="12" fill="#0969da">재인가 검증 후 안전한 쓰기 수행</text>
+  <text x="160" y="532" font-size="12" fill="#0969da">독립 재인가 후 OPC-UA 쓰기</text>
 
   <polyline points="460,480 460,540 687,540 687,576" fill="none" stroke="#0969da" stroke-width="1.6" marker-end="url(#scB)"/>
   <text x="500" y="532" font-size="12" fill="#0969da">검증된 정의 및 텔레메트리 샘플</text>
@@ -81,12 +82,13 @@
   <text x="153" y="744" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">비관리 클라이언트</text>
   <text x="153" y="766" font-size="12" fill="#57606a" text-anchor="middle">임의 세션을 보유한 비인가 주체</text>
 
-  <polyline points="153,716 153,644" fill="none" stroke="#cf222e" stroke-width="1.6" marker-end="url(#scR)"/>
-  <text x="165" y="686" font-size="12" fill="#cf222e">축 12 · 이 경로에는 게이트 부재</text>
+  <polyline points="153,716 153,644" fill="none" stroke="#cf222e" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#scR)"/>
+  <text x="165" y="686" font-size="12" fill="#cf222e">축 12(부분): 엣지 X.509 요구시 쓰기 거부</text>
+  <text x="165" y="702" font-size="12" fill="#cf222e">공장 자체 서버·망 구성, Modbus/TCP 미강제</text>
 
-  <text x="28" y="836" font-size="13" fill="#1f2328">경계를 통과하지 않는 클라이언트를 강제할 수단이 없으며, 벤더 런타임의</text>
-  <text x="28" y="856" font-size="13" fill="#1f2328">실시간 설정을 역으로 읽어 선언문과 대조하는 루프 또한 부재합니다.</text>
-  <text x="28" y="876" font-size="13" fill="#1f2328">두 관계 모두 현재 미해결 상태이므로 명시적인 개방 축으로 표시되었습니다.</text>
+  <text x="28" y="836" font-size="13" fill="#1f2328">축 12는 서버가 엣지 신원을 요구할 때만 우회 쓰기가 거부된다.</text>
+  <text x="28" y="856" font-size="13" fill="#1f2328">축 13은 벤더 파일을 멤버별 대조하며, 제품 조회와 투영은 미구현이다.</text>
+  <text x="28" y="876" font-size="13" fill="#1f2328">두 축은 부분 구현이며 개방 축은 없고, 잔여분은 공장 시스템에 닿는다.</text>
 
 </svg>
 

@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.dark.svg">
-  <img alt="Yggdrasil — IIoT 거버넌스 스파인: Mímir가 모델을 도출하고, Bifrost가 이를 거버넌스하며, Heimdall이 쓰기 경계를 방어하고, Muninn이 통합 네임스페이스로 데이터를 피드합니다" src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.svg">
+  <img alt="Yggdrasil 거버넌스 스파인에서 Mímir는 설계시 OPC-UA 브라우징으로 모델을 도출하고, Týr는 매핑을 Bifrost에 파일 제출하며 Bifrost가 승인 거버넌스를 수행한다. Heimdall은 쓰기를 보호하고 Muninn은 UNS를 공급하며, Huginn은 투영 정책과 오프라인 pcap을 대조해 차단 없이 가시성만 제공하고 코드 공유는 없다." src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.svg">
 </picture>
 
 # Yggdrasil
@@ -19,7 +19,7 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/system-context.dark.svg">
-  <img alt="시스템 컨텍스트: 변경 제안자/승인자, Git 호스팅, 벤더 툴링, OT 설비 및 UNS 소비자 사이에 위치한 Yggdrasil과 명시적으로 표시된 2개의 미해결 개방 축" src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/system-context.svg">
+  <img alt="시스템 컨텍스트에서 Yggdrasil은 변경 제안자, 승인자, 감사관, Git 저장소, 벤더 툴링, OT 장비, UNS 소비자, 비관리 클라이언트 사이에 위치한다. 벤더 모델은 연결 없이 파일로 인입되며, 점선 관계인 축 12와 13은 둘 다 부분 구현 상태로 개방된 축은 없다." src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/system-context.svg">
 </picture>
 
 > **엔지니어링 정직성 선언 — 부분 구현된 두 축 (Partial Axes)**:  
