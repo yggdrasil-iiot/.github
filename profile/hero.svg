@@ -19,14 +19,14 @@
   <rect x="165" y="146" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
   <text x="240" y="171" font-size="12.5" fill="#1f2328" text-anchor="middle">MQTT</text>
   <rect x="345" y="146" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
-  <text x="420" y="171" font-size="12.5" fill="#1f2328" text-anchor="middle">Kafka</text>
+  <text x="420" y="171" font-size="12.5" fill="#1f2328" text-anchor="middle">히스토리안</text>
   <rect x="525" y="146" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
   <text x="600" y="171" font-size="12.5" fill="#1f2328" text-anchor="middle">MES</text>
 
   <!-- ===== the spine ===== -->
   <rect x="224" y="216" width="392" height="254" rx="10" fill="#eef5ff" stroke="#cfe0f5"/>
   <text x="244" y="240" font-size="11" font-weight="700" fill="#0969da" letter-spacing="1">거버넌스 스파인 (GOVERNANCE SPINE)</text>
-  <text x="420" y="258" font-size="11.5" fill="#1f2328" text-anchor="middle">단일 거버넌스 계약의 엄격한 강제</text>
+  <text x="420" y="258" font-size="11.5" fill="#1f2328" text-anchor="middle">단일 거버넌스 계약 (엣지·피더 경로만 강제)</text>
   <text x="420" y="276" font-size="11" fill="#57606a" text-anchor="middle">스키마 · 사양 · 출처 검증 · 앵커 활성화</text>
 
   <rect x="290" y="292" width="260" height="58" rx="6" fill="#eaf3ea" stroke="#1a7f37" stroke-width="1.6"/>
@@ -46,6 +46,12 @@
   <text x="728" y="331" font-size="11" fill="#57606a" text-anchor="middle">UNS 데이터 피드</text>
   <text x="728" y="345" font-size="11" fill="#57606a" text-anchor="middle">송출 검증 (Egress)</text>
 
+  <rect x="52" y="398" width="148" height="58" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="126" y="422" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">Týr</text>
+  <text x="126" y="442" font-size="11" fill="#57606a" text-anchor="middle">매핑 작성·검토</text>
+  <polyline points="200,427 257,427 257,340 290,340" fill="none" stroke="#57606a" stroke-width="1.4" stroke-dasharray="6 3" marker-end="url(#ah-grey)"/>
+  <text x="204" y="446" font-size="11" fill="#57606a">매핑 제안 파일</text>
+
   <!-- ===== governed bytes, north ===== -->
   <polyline points="200,314 290,314" fill="none" stroke="#57606a" stroke-width="1.6" marker-end="url(#ah-grey)"/>
   <text x="204" y="306" font-size="11" fill="#57606a">도출 → 거버넌스</text>
@@ -62,37 +68,42 @@
   <rect x="24" y="490" width="792" height="92" rx="10" fill="#fbfcfd" stroke="#e6e9ee"/>
   <text x="40" y="514" font-size="11" font-weight="700" fill="#8b95a1" letter-spacing="1">OT · 현장 — 남향 제어 플로우 (명령 / 쓰기)</text>
   <rect x="165" y="526" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
-  <text x="240" y="551" font-size="12.5" fill="#1f2328" text-anchor="middle">PLC</text>
+  <text x="240" y="551" font-size="12.5" fill="#1f2328" text-anchor="middle">OPC-UA</text>
   <rect x="345" y="526" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
-  <text x="420" y="551" font-size="12.5" fill="#1f2328" text-anchor="middle">OPC-UA</text>
+  <text x="420" y="551" font-size="12.5" fill="#1f2328" text-anchor="middle">PLC</text>
   <rect x="525" y="526" width="150" height="40" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
   <text x="600" y="551" font-size="12.5" fill="#1f2328" text-anchor="middle">시뮬레이터 (Sim)</text>
 
-  <polyline points="420,456 420,526" fill="none" stroke="#9a6700" stroke-width="1.6" marker-end="url(#ah-amber)"/>
-  <text x="430" y="478" font-size="11" fill="#9a6700">NCMD 쓰기</text>
+  <polyline points="300,456 300,526" fill="none" stroke="#9a6700" stroke-width="1.6" marker-end="url(#ah-amber)"/>
+  <text x="310" y="478" font-size="11" fill="#9a6700">OPC-UA 쓰기 (X.509, opt-in)</text>
 
   <!-- ===== observation, back up ===== -->
   <polyline points="165,546 36,546 36,350" fill="none" stroke="#8b95a1" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah-obs)"/>
-  <text x="44" y="424" font-size="11" fill="#8b95a1">타입 브라우징</text>
+  <text x="44" y="476" font-size="11" fill="#8b95a1">타입 브라우징 (설계시)</text>
   <polyline points="675,546 760,546 760,350" fill="none" stroke="#8b95a1" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah-obs)"/>
   <text x="768" y="424" font-size="11" fill="#8b95a1">실시간 샘플링</text>
 
   <!-- ===== observation arm ===== -->
   <polyline points="420,582 420,616" fill="none" stroke="#8b95a1" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#ah-obs)"/>
-  <text x="430" y="604" font-size="11" fill="#8b95a1">패킷 캡처 (pcap)</text>
+  <text x="412" y="604" font-size="11" fill="#8b95a1" text-anchor="end">오프라인 인계 pcap 파일</text>
   <rect x="270" y="616" width="300" height="64" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
   <text x="420" y="642" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">Huginn</text>
   <text x="420" y="662" font-size="11" fill="#57606a" text-anchor="middle">회선 패킷 해독, 미선언 통신 경로 적발</text>
-  <text x="584" y="644" font-size="11" fill="#8b95a1">로컬 policy.yaml 대조 검증 수행</text>
-  <text x="584" y="662" font-size="11" fill="#8b95a1">(Bifrost 선언문과는 수동 분리)</text>
+  <text x="584" y="644" font-size="11" fill="#8b95a1">Bifrost 투영 정책 조각을 그대로 읽음</text>
+  <text x="584" y="662" font-size="11" fill="#8b95a1">가시성 목적 (보고만, 차단 없음)</text>
+
+  <polyline points="550,340 580,340 580,476 510,476 510,616" fill="none" stroke="#57606a" stroke-width="1.4" stroke-dasharray="6 3" marker-end="url(#ah-grey)"/>
+  <text x="588" y="410" font-size="11" fill="#57606a">conduit 정책</text>
 
   <!-- ===== legend ===== -->
   <polyline points="28,716 58,716" fill="none" stroke="#57606a" stroke-width="1.6"/>
   <text x="66" y="720" font-size="11" fill="#57606a">데이터 (거버넌스 검증 바이트)</text>
   <polyline points="200,716 230,716" fill="none" stroke="#8b95a1" stroke-width="1.4" stroke-dasharray="4 3"/>
-  <text x="238" y="720" font-size="11" fill="#57606a">수동 관측 (Observation)</text>
-  <polyline points="330,716 360,716" fill="none" stroke="#9a6700" stroke-width="1.6"/>
-  <text x="368" y="720" font-size="11" fill="#9a6700">제어 명령 / 쓰기 (Command / Write)</text>
+  <text x="238" y="720" font-size="11" fill="#57606a">관측·읽기 (쓰기 제외)</text>
+  <polyline points="380,716 410,716" fill="none" stroke="#9a6700" stroke-width="1.6"/>
+  <text x="418" y="720" font-size="11" fill="#9a6700">제어 명령 / 쓰기 (Command / Write)</text>
+  <polyline points="28,738 58,738" fill="none" stroke="#57606a" stroke-width="1.4" stroke-dasharray="6 3"/>
+  <text x="66" y="742" font-size="11" fill="#57606a">수동 인계 파일 (코드·실시간 미연결)</text>
   <text x="812" y="720" font-size="11" fill="#8b95a1" text-anchor="end">닫힌 루프: 관측 → 제어 명령 → 관측</text>
 
 </svg>
