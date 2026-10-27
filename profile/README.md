@@ -71,8 +71,8 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 - **산업 표준 통신 프로토콜**:
   - **OPC UA**: Eclipse Milo (서버 브라우징, 노드 읽기/쓰기 인가 어댑터)
   - **Sparkplug B**: Eclipse Tahu (v3.0.0 명세 호환 페이로드 인코딩/디코딩)
-  - **MQTT**: HiveMQ Community Edition (분산 브로커 및 ACL 프로젝션)
-- **독립 패킷 엔진**: 런타임 외부 의존성이 전혀 없는 순수 수제작 PCAP 파서, Modbus/TCP 및 Siemens S7comm 바이너리 프레이밍 엔진
+  - **MQTT**: HiveMQ Community Edition (사이트별 독립 브로커, 개발용 allow-all 확장, 브로커가 강제하지 않는 ACL 파일 생성)
+- **독립 패킷 엔진**: PCAP 파서와 Modbus/TCP·Siemens S7comm 해독기, 정책 대조 모듈은 서드파티 런타임 의존성이 없고, 정책 YAML을 읽는 `contract` 모듈과 CLI는 Jackson을 씀
 - **암호화 및 무결성 검증**: SHA-256 선형 해시 체인 원장(활성화 원장의 항목별 Ed25519 이중 서명·서명된 헤드·외부 증인 앵커, 끝부분 삭제를 탐지하지 못하는 미서명 명령 원장)
 - **라이선스**: [Apache-2.0](LICENSE)
 
