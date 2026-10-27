@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.dark.svg">
-  <img alt="Yggdrasil 거버넌스 스파인에서 Mímir는 설계시 OPC-UA 브라우징으로 모델을 도출하고, Týr는 매핑을 Bifrost에 파일 제출하며 Bifrost가 승인 거버넌스를 수행한다. Heimdall은 쓰기를 보호하고 Muninn은 UNS를 공급하며, Huginn은 투영 정책과 오프라인 pcap을 대조해 차단 없이 가시성만 제공하고 코드 공유는 없다." src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.svg">
+  <img alt="Yggdrasil 거버넌스 스파인에서 Mimir는 설계시 OPC-UA 브라우징으로 모델을 도출하고, Tyr는 매핑을 Bifrost에 파일 제출하며 Bifrost가 승인 거버넌스를 수행한다. Heimdall은 쓰기를 보호하고 Muninn은 UNS를 공급하며, Huginn은 투영 정책과 오프라인 pcap을 대조해 차단 없이 가시성만 제공하고 코드 공유는 없다." src="https://raw.githubusercontent.com/yggdrasil-iiot/.github/master/profile/hero.svg">
 </picture>
 
 # Yggdrasil
@@ -36,8 +36,8 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 |---|---|---|
 | **Bifrost** | [yggdrasil-iiot/bifrost](https://github.com/yggdrasil-iiot/bifrost) | **거버넌스 코어 (The "IAM" for OT)**: 스키마 호환성, 공정 사양 적합성, Git 기반 출처 검증, 명령 인가 및 **앵커드 활성화(Anchored Activation)** 게이트를 호스팅하는 거버넌스 권위체. |
 | **Heimdall** | in [yggdrasil-iiot/bifrost](https://github.com/yggdrasil-iiot/bifrost) | **쓰기 경계 런타임 인가 데몬 (Write Boundary Daemon)**: 기본 거부(Deny-by-Default) 원칙에 따라 모든 OPC UA 제어 명령(NCMD)의 인가 권한과 물리적 안전 경계값을 엣지 현장에서 직접 강제. |
-| **Mímir** | [yggdrasil-iiot/mimir](https://github.com/yggdrasil-iiot/mimir) | **설비 모델 도출기 (Model Derivation)**: 런타임 데이터 경로가 아닌 설계 시점에 가동 중인 현장 OPC UA 서버를 타입당 1회 브라우징하여 자산관리셸(AAS) 정렬 UDT 정의를 자동으로 역추출 및 제안하는 설계 시점 프로듀서. |
-| **Týr** | [yggdrasil-iiot/tyr](https://github.com/yggdrasil-iiot/tyr) | **매핑 작성 작업대 (Mapping Authoring)**: PLC별 접근 정의와 상위 의미 간의 매핑을 변경 비교 및 검토 이력과 함께 작성하고 검토하여 Bifrost의 파일 승인 및 게시 경로에 파일로 제출합니다. Týr 자체의 승인 권한은 생성하지 않으며 장치 통신, 외부 SQL, 쓰기 실행, 런타임 활성화는 제외됩니다. 다른 앱과는 공유 코드 없이 오직 파일 계약을 통해서만 결합됩니다. |
+| **Mimir (Mímir)** | [yggdrasil-iiot/mimir](https://github.com/yggdrasil-iiot/mimir) | **설비 모델 도출기 (Model Derivation)**: 런타임 데이터 경로가 아닌 설계 시점에 가동 중인 현장 OPC UA 서버를 타입당 1회 브라우징하여 자산관리셸(AAS) 정렬 UDT 정의를 자동으로 역추출 및 제안하는 설계 시점 프로듀서. |
+| **Tyr (Týr)** | [yggdrasil-iiot/tyr](https://github.com/yggdrasil-iiot/tyr) | **매핑 작성 작업대 (Mapping Authoring)**: PLC별 접근 정의와 상위 의미 간의 매핑을 변경 비교 및 검토 이력과 함께 작성하고 검토하여 Bifrost의 파일 승인 및 게시 경로에 파일로 제출합니다. Tyr 자체의 승인 권한은 생성하지 않으며 장치 통신, 외부 SQL, 쓰기 실행, 런타임 활성화는 제외됩니다. 다른 앱과는 공유 코드 없이 오직 파일 계약을 통해서만 결합됩니다. |
 | **Muninn** | [yggdrasil-iiot/muninn](https://github.com/yggdrasil-iiot/muninn) | **북향 UNS 데이터 피더 (Northbound Feed)**: 거버넌스를 통과한 설비 정의의 바이트 출처를 암호학적으로 검증하고, Sparkplug B NBIRTH를 발행하며, 매 텔레메트리 샘플의 스키마 적합성을 송출 검증(Egress Validation)하여 UNS로 스트리밍. |
 | **Huginn** | [yggdrasil-iiot/huginn](https://github.com/yggdrasil-iiot/huginn) | **수동 관측 및 트래픽 대조 (Observation & Reconciliation)**: 미러링된 pcap 패킷으로부터 Modbus/TCP 및 S7comm 제어 프로토콜을 바이트 단위로 해독하여 선언된 통신 정책과 비교, 게이트를 우회한 미선언 통신을 적발. |
 
@@ -46,7 +46,7 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 ## 2. 실증 완료된 핵심 엔지니어링 성과 (What's Proven)
 
 1. **무공유 코드 기반 북향 스파인 파이프라인 (Zero-Shared-Code Spine)**:  
-   단일 "Line1 Mixer" 설비 모델이 **Mímir**(모델 도출) → **Bifrost**(거버넌스 승인) → **Muninn**(UNS 송출)으로 흐르는 전 과정을 공통 라이브러리나 공유 의존성 없이 순수한 데이터/회선 계약(Wire Contract)만으로 완벽히 통합 실증하였습니다.
+   단일 "Line1 Mixer" 설비 모델이 **Mimir**(모델 도출) → **Bifrost**(거버넌스 승인) → **Muninn**(UNS 송출)으로 흐르는 전 과정을 공통 라이브러리나 공유 의존성 없이 순수한 데이터/회선 계약(Wire Contract)만으로 완벽히 통합 실증하였습니다.
 2. **닫힌 제어 피드백 루프 (Closed Feedback Loop)**:  
    단일 MQTT 브로커 환경에서 *관측(Observe) → 제어 명령(Command) → 관측(Observe)*의 완전한 루프를 형성하여, 인가된 설정값 변경 명령이 현장에 적용되고 그 결과가 다시 UNS 텔레메트리로 반영되는 엔드투엔드 인과성을 입증하였습니다.
 3. **위변조 방지 앵커드 활성화 수명주기 (Anchored Activation Lifecycle)**:  

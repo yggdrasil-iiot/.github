@@ -47,7 +47,7 @@
 
   <polyline points="687,314 687,350 550,350" fill="none" stroke="#58a6ff" stroke-width="1.6" stroke-dasharray="6 3" marker-end="url(#scB)"/>
   <text x="556" y="368" font-size="12" fill="#58a6ff">수동 인계 벤더 파일 대조 (연결 없음)</text>
-  <text x="556" y="384" font-size="12" fill="#58a6ff">Mímir 설정 스냅샷 해석 (계획)</text>
+  <text x="556" y="384" font-size="12" fill="#58a6ff">Mimir 설정 스냅샷 해석 (계획)</text>
 
   <polyline points="760,314 760,392 550,392" fill="none" stroke="#d29922" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#scA)"/>
   <text x="556" y="412" font-size="12" fill="#d29922">축 13 부분 구현 (실행 중 제품 미조회)</text>
@@ -59,8 +59,8 @@
   <text x="420" y="394" font-size="12.5" fill="#8b949e" text-anchor="middle">유효한 데이터 계약을 선언하고,</text>
   <text x="420" y="412" font-size="12.5" fill="#8b949e" text-anchor="middle">활성 버전을 암호학적으로 봉인하며,</text>
   <text x="420" y="430" font-size="12.5" fill="#8b949e" text-anchor="middle">쓰기 시점에 독립적으로 재인가</text>
-  <text x="420" y="456" font-size="12" fill="#8b949e" text-anchor="middle">Bifrost · Heimdall · Mímir</text>
-  <text x="420" y="472" font-size="12" fill="#8b949e" text-anchor="middle">Muninn · Huginn · Týr</text>
+  <text x="420" y="456" font-size="12" fill="#8b949e" text-anchor="middle">Bifrost · Heimdall · Mimir</text>
+  <text x="420" y="472" font-size="12" fill="#8b949e" text-anchor="middle">Muninn · Huginn · Tyr</text>
 
   <!-- ============ where it lands ============ -->
   <polyline points="380,480 380,540 153,540 153,576" fill="none" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#scB)"/>
