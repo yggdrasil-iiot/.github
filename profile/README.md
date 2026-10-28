@@ -41,6 +41,8 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 | **Muninn** | [yggdrasil-iiot/muninn](https://github.com/yggdrasil-iiot/muninn) | **북향 UNS 데이터 피더 (Northbound Feed)**: 거버넌스를 통과한 설비 정의의 바이트 출처를 암호학적으로 검증하고, Sparkplug B NBIRTH를 발행하며, 매 텔레메트리 샘플의 스키마 적합성을 송출 검증(Egress Validation)하여 UNS로 스트리밍. |
 | **Huginn** | [yggdrasil-iiot/huginn](https://github.com/yggdrasil-iiot/huginn) | **수동 관측 및 트래픽 대조 (Observation & Reconciliation)**: 미러링된 pcap 패킷으로부터 Modbus/TCP 및 S7comm 제어 프로토콜을 바이트 단위로 해독하여 선언된 통신 정책과 비교, 게이트를 우회한 미선언 통신을 적발. |
 
+Yggdrasil 저장소 다섯(Bifrost·Mímir·Týr·Muninn·Huginn)과 이 프로필에서 쓰는 용어 91개는 [용어 사전](GLOSSARY.md)에 모았습니다.
+
 ---
 
 ## 2. 실증 완료된 핵심 엔지니어링 성과 (What's Proven)
