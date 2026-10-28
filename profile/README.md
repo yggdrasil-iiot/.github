@@ -35,7 +35,7 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 | 컴포넌트 | 저장소 링크 | 아키텍처 역할 및 엔지니어링 책임 |
 |---|---|---|
 | **Bifrost** | [yggdrasil-iiot/bifrost](https://github.com/yggdrasil-iiot/bifrost) | **거버넌스 코어 (The "IAM" for OT)**: 스키마 호환성, 공정 사양 적합성, Git 기반 출처 검증, 명령 인가 및 **앵커드 활성화(Anchored Activation)** 게이트를 호스팅하는 거버넌스 권위체. |
-| **Heimdall** | in [yggdrasil-iiot/bifrost](https://github.com/yggdrasil-iiot/bifrost) | **쓰기 경계 런타임 인가 데몬 (Write Boundary Daemon)**: 기본 거부(Deny-by-Default) 원칙에 따라 모든 OPC UA 제어 명령(NCMD)의 인가 권한과 물리적 안전 경계값을 엣지 현장에서 직접 강제. |
+| **Heimdall** | in [yggdrasil-iiot/bifrost](https://github.com/yggdrasil-iiot/bifrost) | **쓰기 경계 런타임 인가 데몬 (Write Boundary Daemon)**: MQTT로 직접 받은 Sparkplug B NCMD를 OPC UA 쓰기로 바꾸기 전 엣지에서 기본 거부(Deny-by-Default) 원칙에 따라 타입·최솟값·최댓값을 검사해 다시 인가함. 모든 OPC UA 명령을 가로채지 않고 `CONFORMANCE_PATH` 설정 시에만 설비 정의·정책의 수치 범위와 멤버 간 제약을 검사하며, 기록 전용 모드(`ENFORCEMENT_LOG_ONLY`)에서는 차단하지 않고 기록만 남기며, Heimdall을 거치지 않는 쓰기는 막지 못합니다. |
 | **Mímir** | [yggdrasil-iiot/mimir](https://github.com/yggdrasil-iiot/mimir) | **설비 모델 도출기 (Model Derivation)**: 런타임 데이터 경로가 아닌 설계 시점에 가동 중인 현장 OPC UA 서버를 타입당 1회 브라우징하여 자산관리셸(AAS) 정렬 UDT 정의를 자동으로 역추출 및 제안하는 설계 시점 프로듀서. |
 | **Týr** | [yggdrasil-iiot/tyr](https://github.com/yggdrasil-iiot/tyr) | **매핑 작성 작업대 (Mapping Authoring)**: PLC별 접근 정의와 상위 의미 간의 매핑을 변경 비교 및 검토 이력과 함께 작성하고 검토하여 Bifrost의 파일 승인 및 게시 경로에 파일로 제출합니다. Týr 자체의 승인 권한은 생성하지 않으며 장치 통신, 외부 SQL, 쓰기 실행, 런타임 활성화는 제외됩니다. 다른 앱과는 공유 코드 없이 오직 파일 계약을 통해서만 결합됩니다. |
 | **Muninn** | [yggdrasil-iiot/muninn](https://github.com/yggdrasil-iiot/muninn) | **북향 UNS 데이터 피더 (Northbound Feed)**: 거버넌스를 통과한 설비 정의의 바이트 출처를 암호학적으로 검증하고, Sparkplug B NBIRTH를 발행하며, 매 텔레메트리 샘플의 스키마 적합성을 송출 검증(Egress Validation)하여 UNS로 스트리밍. |
@@ -55,8 +55,8 @@ Yggdrasil 저장소 다섯(Bifrost·Mímir·Týr·Muninn·Huginn)과 이 프로�
    "현재 현장에서 구동 중인 모델/레시피 버전이 정본인가?"를 위변조가 즉시 드러나도록(Tamper-evident) 하고 사후 부인이 불가능하도록(Non-repudiation), 단순 감사 로그를 넘어선 암호학적 이력 체계를 구축하였습니다:  
    `4-eyes 승인` → `해시 체인 불변 원장` → `이중 Ed25519 서명 + 서명된 헤드` → `기본 거부 메이커-체커 인가` → `외부 증인 앵커(External Witness) 대조 크로스체크`.  
    이를 통해 악의적인 내부자에 의한 과거 버전 롤백 공격을 즉각 감지하며, `REQUIRE_SIGNED_ACTIVATION` 및 `REQUIRE_ANCHORED_ACTIVATION` 플래그를 활성화한 경우(두 플래그는 기본값이 꺼짐) 런타임 데몬(Heimdall)은 버전 무결성이 훼손되면 폐쇄형 실패(Fail-Closed)하여 설비 바인딩을 거부합니다.
-4. **실제 산업 현장 트래픽(PCAP) 기반 무손실 대조 검증**:  
-   Huginn은 공개된 3건의 4SICS ICS 랩 실제 캡처 패킷을 대상으로 산업 표준 네트워크 분석 도구인 **tshark**와 1:1 크로스체크를 수행하였습니다. S7 요청 패킷 수가 **완벽히 일치(23,732 / 86,403 / 53,217건)**함을 확인하였으며, 응답 패킷을 파싱하지 않는 설계 불변식을 실증하고, 미등록 호스트의 PLC 쓰기 시도 및 디바이스 스캔 행위를 성공적으로 적발하였습니다.
+4. **실제 공개 캡처(PCAP) 대조 검증**:  
+   공개 4SICS ICS 랩 캡처 3건의 Huginn 해독 결과를 **tshark**와 대조하여 S7comm 요청(ROSCTR 1) 개수가 세 캡처 모두 **23,732 / 86,403 / 53,217건**으로 일치함을 확인했습니다. 응답(Modbus 49,787건, S7 76,951건)은 관찰로 생성하지 않으며(0건), 캡처별 미관측 바이트(2.4% / 0.3% / 0.0%)를 보고서에 숫자로 남김. 시험용 정책 대조 시 미등록 호스트의 S7 PLC 쓰기(23건)와 Modbus 장치 식별 스캔(11건)을 위반으로 보고하였고, 실제 캡처 회귀 시험 7건은 캡처를 재배포하지 않아 CI에서 건너뛰므로(242건 중 235건 실행) 위 수치는 로컬 실행 기록이며, PLC 제어 계열과 비표준 포트 우회는 합성 캡처로만 검증했습니다.
 5. **가동 중인 기존 공장을 위한 단계적 도입 전략**:  
    - **기록 전용 모드 실증**: 운영 중인 라인을 멈추지 않고 시스템을 도입할 수 있도록, 런타임 엣지에 모든 판정을 기록하되 명령을 차단하지 않는 `ENFORCEMENT_LOG_ONLY` 모드를 탑재하고 실제 브로커 및 OPC UA 서버와 연동하여 안전성을 실증하였습니다.  
    - **관찰 단계 0과 적용 단계 1~6 롤아웃 절차 규격화 (공장 실행 이력 없음 · 코드 유도 추론)**: 안전한 단계적 도입을 위한 관찰 단계 0과 적용 단계 1~6 롤아웃 절차와 단계별 중단 기준(Abort Criteria)을 [`bifrost/docs/ADOPTION.md`](https://github.com/yggdrasil-iiot/bifrost/blob/main/docs/ADOPTION.md)에 정리하였습니다(단, 본 절차는 실제 공장 라인에서 실행된 이력은 없으며 코드베이스 분석으로부터 유도된 엔지니어링 추론 모델입니다).
@@ -73,9 +73,9 @@ Yggdrasil 저장소 다섯(Bifrost·Mímir·Týr·Muninn·Huginn)과 이 프로�
 - **산업 표준 통신 프로토콜**:
   - **OPC UA**: Eclipse Milo (서버 브라우징, 노드 읽기/쓰기 인가 어댑터)
   - **Sparkplug B**: Eclipse Tahu (v3.0.0 명세 호환 페이로드 인코딩/디코딩)
-  - **MQTT**: HiveMQ Community Edition (분산 브로커 및 ACL 프로젝션)
-- **독립 패킷 엔진**: 런타임 외부 의존성이 전혀 없는 순수 수제작 PCAP 파서, Modbus/TCP 및 Siemens S7comm 바이너리 프레이밍 엔진
-- **암호화 및 무결성 검증**: Ed25519 전자서명, SHA-256 해시 체인 머클 원장
+  - **MQTT**: HiveMQ Community Edition (사이트별 독립 브로커, 개발용 allow-all 확장, 브로커가 강제하지 않는 ACL 파일 생성)
+- **독립 패킷 엔진**: PCAP 파서와 Modbus/TCP·Siemens S7comm 해독기, 정책 대조 모듈은 서드파티 런타임 의존성이 없고, 정책 YAML을 읽는 `contract` 모듈과 CLI는 Jackson을 씀
+- **암호화 및 무결성 검증**: SHA-256 선형 해시 체인 원장(활성화 원장의 항목별 Ed25519 이중 서명·서명된 헤드·외부 증인 앵커, 끝부분 삭제를 탐지하지 못하는 미서명 명령 원장)
 - **라이선스**: [Apache-2.0](LICENSE)
 
 ---
