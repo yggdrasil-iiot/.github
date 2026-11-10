@@ -40,6 +40,11 @@ Yggdrasil(위그드라실)은 설비 현장(OT)에서 통합 네임스페이스(
 | **Tyr (Týr)** | [yggdrasil-iiot/tyr](https://github.com/yggdrasil-iiot/tyr) | **매핑 작성 작업대 (Mapping Authoring)**: PLC별 접근 정의와 상위 의미 간의 매핑을 변경 비교 및 검토 이력과 함께 작성하고 검토하여 Bifrost의 파일 승인 및 게시 경로에 파일로 제출합니다. Tyr 자체의 승인 권한은 생성하지 않으며 장치 통신, 외부 SQL, 쓰기 실행, 런타임 활성화는 제외됩니다. 다른 앱과는 공유 코드 없이 오직 파일 계약을 통해서만 결합됩니다. |
 | **Muninn** | [yggdrasil-iiot/muninn](https://github.com/yggdrasil-iiot/muninn) | **북향 UNS 데이터 피더 (Northbound Feed)**: 거버넌스를 통과한 설비 정의의 바이트 출처를 암호학적으로 검증하고, Sparkplug B NBIRTH를 발행하며, 매 텔레메트리 샘플의 스키마 적합성을 송출 검증(Egress Validation)하여 UNS로 스트리밍. |
 | **Huginn** | [yggdrasil-iiot/huginn](https://github.com/yggdrasil-iiot/huginn) | **수동 관측 및 트래픽 대조 (Observation & Reconciliation)**: 미러링된 pcap 패킷으로부터 Modbus/TCP 및 S7comm 제어 프로토콜을 바이트 단위로 해독하여 선언된 통신 정책과 비교, 게이트를 우회한 미선언 통신을 적발. |
+| **Vor** | [yggdrasil-iiot/vor](https://github.com/yggdrasil-iiot/vor) | **거버넌스 에이전트 인터페이스 (Governed Agent Interface)**: 단일 도구 `read_governed`를 갖춘 MCP 서버로 발행된 Bifrost 릴리스와 실시간 Muninn 샘플에 묶인 값 또는 결정론적 거절 응답을 반환하며, 내장 LLM 없이 MCP 호스트가 추론을 전담. `vor-propose`로 AI 에이전트의 제어 명령 제안에 서명하여 Bifrost 승인과 Heimdall로 전달. |
+| **Forseti** | [yggdrasil-iiot/forseti](https://github.com/yggdrasil-iiot/forseti) | **이벤트 시간 결합 및 품질 판정 (Event-Time Join & Quality Judgement)**: 이벤트 시간 기준으로 공정 샘플과 스테이션 점유를 결합하고 지연 도착한 품질 이상을 그 증거와 대조 판정하여 영향받은 단품을 특정. 단일 게이트 배후에서 Apache Flink와 Kafka Streams 양쪽으로 계획 중이며 공장 쓰기 경로는 두지 않는 사양 및 계획 단계로, 저장소에 코드는 아직 없음. |
+| **Hermod** | [yggdrasil-iiot/hermod](https://github.com/yggdrasil-iiot/hermod) | **IT/OT 트랜잭션 사가 플랫폼 (Durable Saga Platform)**: Temporal과 Conductor에서 구동되는 엔진 중립·계약 기반 IT/OT 통합 듀러블 사가 플랫폼으로, 블록 계약에서 멱등성, 사가 보상, 사람 승인 게이트를 도출. 기본 적용 경로는 Heimdall을 거쳐 Sparkplug B NCMD로 쓰기를 전달. |
+
+각 제품별 최근 완료 내역과 차기 과제, 어떤 조건에서 무엇이 유예되는지, 설계상 제외된 항목은 [ROADMAP.md](https://github.com/yggdrasil-iiot/.github/blob/master/ROADMAP.md)에서 확인할 수 있습니다.
 
 Yggdrasil 저장소 다섯(Bifrost·Mimir·Tyr·Muninn·Huginn)과 이 프로필에서 쓰는 용어 91개는 [용어 사전](GLOSSARY.md)에 모았습니다.
 
