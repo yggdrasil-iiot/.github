@@ -1,0 +1,14 @@
+name: publication
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  publication:
+    uses: ./.github/workflows/publication-check.yml
