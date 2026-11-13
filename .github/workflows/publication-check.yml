@@ -1,0 +1,67 @@
+# Reusable workflow: the publication check of CONTRIBUTING.md for a pull request or a push.
+# A repository calls it from a workflow of its own, pinned to a commit of this repository:
+#
+#   on:
+#     pull_request:
+#       types: [opened, edited, synchronize, reopened, ready_for_review]
+#     push:
+#       branches: [main]
+#   jobs:
+#     publication:
+#       uses: yggdrasil-iiot/.github/.github/workflows/publication-check.yml@<commit sha>
+#
+# The script runs from the same commit as this file (job.workflow_repository at job.workflow_sha). Pull request
+# text is read from the event payload as data and never placed in a shell command.
+name: publication check
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: publication check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
+          path: .publication-check
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with: {python-version: '3.13'}
+      - name: Self-test of the check
+        run: python -I .publication-check/scripts/publication_check.py selftest
+      - name: Commit messages, pull request title and body, added lines
+        run: python -I .publication-check/scripts/publication_check.py ci
+      - name: Secrets (gitleaks 8.30.1)
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.event.after }}
+        run: |
+          set -euo pipefail
+          curl -sSfL -o "$RUNNER_TEMP/gitleaks.tgz" \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  $RUNNER_TEMP/gitleaks.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/gitleaks.tgz" -C "$RUNNER_TEMP" gitleaks
+          if [ "$EVENT_NAME" = pull_request ]; then
+            range="$(git merge-base "$PR_BASE" "$PR_HEAD")..$PR_HEAD"
+          elif [ "$EVENT_NAME" = push ] && [ "$PUSH_BEFORE" != 0000000000000000000000000000000000000000 ]; then
+            range="$PUSH_BEFORE..$PUSH_AFTER"
+          elif [ "$EVENT_NAME" = push ]; then
+            range="$PUSH_AFTER"
+          else
+            echo "unsupported event $EVENT_NAME"; exit 1
+          fi
+          "$RUNNER_TEMP/gitleaks" git --no-banner --redact --exit-code 1 --log-opts="$range" .
