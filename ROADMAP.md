@@ -1,5 +1,5 @@
 # Yggdrasil 로드맵
-기준일 2026-11-11.
+기준일 2026-11-17.
 
 ## 이 문서를 읽는 법
 
@@ -34,9 +34,12 @@ Forseti 구현 단계:
 - 0단계 스펙 v13 (forseti) — 완료 2026-11-06
 - 1단계 Bifrost 매핑 계약 2.27.0, 귀속·영향 규칙 — 완료 2026-11-07
 - 2단계 Tyr 규칙 작성 — 완료 2026-11-08
-- 3단계 엔진 독립 코어와 독립 오라클 — 구현 계획만 병합(2026-11-10), PR 0 미착수
-- 4단계 Bifrost 시뮬레이터 `Line2` — 미착수
-- 5~8단계 브리지, Flink 작업, Kafka Streams 작업, 두 엔진 비교 — 미착수
+- 3단계 엔진 독립 코어와 독립 오라클 — 완료 2026-11-14
+- 4단계 Bifrost 시뮬레이터 `Line2` — 완료 2026-11-14
+- 5단계 라이브 루프 — 완료 2026-11-16
+- 6단계 Flink 어댑터, 재생 게이트, 대조군 — 진행 중(PR 1~3 병합)
+- 7단계 Kafka Streams 작업 — 미착수
+- 8단계 두 엔진 비교 — 미착수
 - 9단계 Bifrost ENTERPRISE.md·INTEGRATION.md 문서 — 미착수
 
 ## 제품별 로드맵
@@ -52,10 +55,10 @@ Forseti 구현 단계:
 - 거버넌스된 읽기(M1)와 AI 에이전트의 거버넌스된 쓰기(M2): 시뮬레이터 Method, 명령 제안과 `gates command approve|verify`, OPA `command_method`, Heimdall `op=method`, 게이트 M1–M7 (2026-11-02~03).
 - 엣지 신원·명령 바인딩 1~5단계: 서버 신뢰, 계약 2.25.0 명령 바인딩, Heimdall을 독립 Sparkplug 명령 노드로 분리, `endpointRef` 2.26.0 (2026-11-04~05).
 - Forseti 1단계 매핑 계약 2.27.0 (2026-11-07).
+- Forseti 4단계 시뮬레이터 `Line2`(스테이션 3개, 너트러너, 값 제어) 및 `Line2` 스테이션·공구 모델 승인·발행 (2026-11-14).
 - 패키지 이름을 `yggdrasil.*`로 통일 (2026-11-10, 모든 저장소 공통).
 
 **지금·다음**
-- Forseti 4단계 시뮬레이터 `Line2`(스테이션 유형, 너트러너 공구 유형, 제어 노드).
 - Forseti 9단계 문서(`ENTERPRISE.md`, `INTEGRATION.md`).
 
 **보류 (재개 조건)**
@@ -109,9 +112,8 @@ PLC별 접근 정의와 상위 의미의 매핑을 작성하고 검토하는 작
 - 파생 지표 정의 (2026-11-02).
 - 명령 바인딩, `endpointRef`와 인증서 가져오기 (2026-11-04~05).
 - Forseti 귀속·영향 규칙 작성 (2026-11-08).
-
-**지금·다음**
-- Forseti 3단계 PR 6 이후 실제 `format.schemaSha256`와 사고 토픽 `quality.incidents`로 규칙 묶음 다시 작성.
+- 실제 `format.schemaSha256`과 사고 토픽 `quality.incidents`를 반영한 규칙 번들 재작성(스테이션 3개) (2026-11-11).
+- `Line2` 배치 변형 번들 4개 추가 (2026-11-14).
 
 **보류 (재개 조건)**
 - 현장 가치 검증 (아직 하지 않음).
@@ -181,19 +183,19 @@ MCP 서버. 도구는 `read_governed` 하나다. 발행된 Bifrost 릴리스에 
 
 공정 샘플과 스테이션 점유를 이벤트 시각으로 결합(1단계)하고, 늦게 도착한 품질 사고를 그 증거와 대조해 영향받은 단위를 판정(2단계)한다. Apache Flink와 Kafka Streams 두 엔진에 같은 게이트로 구현할 계획이다. 공장 쓰기 경로는 없다.
 
-저장소에는 아직 문서만 있고 코드는 없다.
-
 **최근 완료**
 - [스펙 v13](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/superpowers/specs/2026-11-05-forseti-design.md) (2026-11-06).
-- 3단계 구현 계획 병합 (2026-11-10).
+- 3단계 엔진 독립 코어와 독립 오라클: 매 컷 오라클 대조 코어 게이트, 대조군 8개, CLI를 통한 기본·재생 세대 승격, [docs/CORE-GATE.md](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/CORE-GATE.md) (2026-11-14).
+- 5단계 라이브 루프: 실제 스택 OPC UA → Muninn → HiveMQ → 브리지 → Kafka 연동, 라이브 녹화 8개 커밋, 매 컷 코어와 오라클 일치, [docs/LIVE-LOOP.md](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/LIVE-LOOP.md) (2026-11-16).
+- 6단계 Flink 어댑터 PR 1(계획, 엔진 모듈, Flink 네이티브 시간 확인, 2026-11-15), PR 2(코어 순수 `CutAssembler`, 2026-11-15), PR 3(엔진 중립 재생 인터페이스, Kafka 재생 하네스, 2026-11-17) 병합.
 
 **지금·다음**
-- [3단계 구현 계획](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/superpowers/plans/2026-11-10-forseti-step3-core-and-oracle.md) (PR 7개):
-  - PR 0: 고정 버전과 3단계 해석을 스펙에 기록 (미착수). 고정 버전은 Kafka Streams 4.2.2, Flink 2.2.1.
-  - PR 1~6: 엔진 독립 코어와 독립 오라클.
+- [6단계 Flink 어댑터 구현 계획](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/superpowers/plans/2026-11-15-forseti-step6-flink-adapter.md):
+  - PR 4: Flink 엔진 작업과 스테이지 어댑터.
+  - PR 5~7.
 
 **보류 (재개 조건)**
-- 4~9단계 (위 흐름 참조).
+- 7~9단계 (위 흐름 참조).
 
 **설계상 하지 않음**
 - 공장 쓰기, 자동 보류·해제, 계보(genealogy), 실제 MES, HA/Kubernetes, Avro/Schema Registry.
@@ -204,10 +206,10 @@ MCP 서버. 도구는 `read_governed` 하나다. 발행된 Bifrost 릴리스에 
 
 **최근 완료**
 - 조직 합류 및 Apache-2.0 라이선스 적용 (2026-11-10).
+- OPC UA 및 outbound emit 게이트가 `AWAITING_APPROVAL`을 기다리도록 수정 (2026-11-10).
 - 적용 경로가 기본으로 Bifrost Heimdall을 거쳐 Sparkplug NCMD로 쓰도록 변경 (`HERMOD_APPLY_MODE=ncmd`).
 
 **지금·다음**
-- 열린 PR #20: OPC UA 및 outbound emit 게이트가 `AWAITING_APPROVAL`을 기다리도록 수정.
 - `docs/reference-architecture.md`를 Bifrost를 포함한 현재 구성으로 갱신.
 
 **보류 (재개 조건)**
@@ -216,12 +218,7 @@ MCP 서버. 도구는 `read_governed` 하나다. 발행된 Bifrost 릴리스에 
 
 ## 결정 대기
 
-[Forseti 3단계 구현 계획의 미결 사항(Open points)](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/superpowers/plans/2026-11-10-forseti-step3-core-and-oracle.md) 목록:
-
-- `line2-attribution`의 `coverage.maxMissingPeriods` 규칙 변경 — 현재 3 / 제안 4 — 주입 20 시험 (유지관리자 결정)
-- 게이트 실행이 15분을 넘을 때 CI 구성 — 제안 `build` 작업을 둘로 분할 — 3단계 CI (유지관리자 결정)
-- 승격 범위 플래그 명칭 — 제안 `--accept-scope core` 확정 — 3단계 검증 (유지관리자 결정)
-- 스테이션 수 — 현재 2 / 제안 3단계는 2개 유지 및 5단계에서 확장(시뮬레이터는 3) — 3단계 및 5단계 (유지관리자 결정)
+현재 대기 중인 결정 사항은 없다. [3단계 구현 계획](https://github.com/yggdrasil-iiot/forseti/blob/main/docs/superpowers/plans/2026-11-10-forseti-step3-core-and-oracle.md)의 미결 사항 4개는 유지관리자가 2026-11-11에 모두 결정했다.
 
 ## 표준 정렬
 
